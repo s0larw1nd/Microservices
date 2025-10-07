@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{616BA35D-D8F7-413A-B219-91CC409937FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{D6ECDCD8-8327-40CE-BD49-2436E640520A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrations", "Migrations\Migrations.csproj", "{AEE64820-028C-4C82-92A3-A6EE423913AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E37C3C6B-AE29-46F8-861E-BD309BD66F96}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{616BA35D-D8F7-413A-B219-91CC409937FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616BA35D-D8F7-413A-B219-91CC409937FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616BA35D-D8F7-413A-B219-91CC409937FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616BA35D-D8F7-413A-B219-91CC409937FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6ECDCD8-8327-40CE-BD49-2436E640520A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6ECDCD8-8327-40CE-BD49-2436E640520A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6ECDCD8-8327-40CE-BD49-2436E640520A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6ECDCD8-8327-40CE-BD49-2436E640520A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE64820-028C-4C82-92A3-A6EE423913AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE64820-028C-4C82-92A3-A6EE423913AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE64820-028C-4C82-92A3-A6EE423913AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE64820-028C-4C82-92A3-A6EE423913AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
