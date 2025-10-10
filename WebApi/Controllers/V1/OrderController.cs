@@ -7,8 +7,8 @@ using WebApi.Validators;
 
 namespace WebApi.Controllers.V1;
 
-
-[Microsoft.AspNetCore.Components.Route("api/v1/order")]
+[Route("api/v1/order")]
+[ApiController]
 public class OrderController(OrderService orderService, ValidatorFactory validatorFactory): ControllerBase
 {
     [HttpPost("batch-create")]
@@ -36,7 +36,6 @@ public class OrderController(OrderService orderService, ValidatorFactory validat
                 PriceCurrency = p.PriceCurrency,
             }).ToArray()
         }).ToArray(), token);
-
 
         return Ok(new V1CreateOrderResponse
         {

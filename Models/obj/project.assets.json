@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Project\\Models\\Models.csproj",
+      "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj",
       "projectName": "Models",
-      "projectPath": "C:\\Users\\user\\RiderProjects\\Project\\Models\\Models.csproj",
+      "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\RiderProjects\\Project\\Models\\obj\\",
+      "outputPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"

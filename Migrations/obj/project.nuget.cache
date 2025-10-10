@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xT3C9fRlOm0=",
+  "dgSpecHash": "5rQmrlBbZB0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\RiderProjects\\Project\\Migrations\\Migrations.csproj",
+  "projectFilePath": "C:\\Users\\user\\RiderProjects\\Microservices\\Migrations\\Migrations.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

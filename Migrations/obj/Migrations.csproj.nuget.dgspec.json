@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\RiderProjects\\Project\\Migrations\\Migrations.csproj": {}
+    "C:\\Users\\user\\RiderProjects\\Microservices\\Migrations\\Migrations.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\RiderProjects\\Project\\Migrations\\Migrations.csproj": {
+    "C:\\Users\\user\\RiderProjects\\Microservices\\Migrations\\Migrations.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Project\\Migrations\\Migrations.csproj",
+        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Microservices\\Migrations\\Migrations.csproj",
         "projectName": "Migrations",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\Project\\Migrations\\Migrations.csproj",
+        "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Migrations\\Migrations.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\Project\\Migrations\\obj\\",
+        "outputPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Migrations\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"

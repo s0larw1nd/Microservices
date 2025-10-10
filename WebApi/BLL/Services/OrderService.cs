@@ -1,12 +1,17 @@
-﻿using WebApi.BLL.Models;
+﻿using Microsoft.Extensions.Options;
+using WebApi.BLL.Models;
+using WebApi.Config;
 using WebApi.DAL;
 using WebApi.DAL.Interfaces;
 using WebApi.DAL.Models;
 using WebApi.DAL.Repositories;
+using Messages;
+using ModelsDtoCommon = Models.Dto.Common;
 
 namespace WebApi.BLL.Services;
 
-public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepository, IOrderItemRepository orderItemRepository)
+public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepository, IOrderItemRepository orderItemRepository,
+    RabbitMqService _rabbitMqService, IOptions<RabbitMqSettings> settings)
 {
     /// <summary>
     /// Метод создания заказов
@@ -52,6 +57,31 @@ public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepositor
             
             ILookup<long, V1OrderItemDal> orderItemLookup = orderItems.ToLookup(x => x.OrderId);
             
+            OrderCreatedMessage[] messages = orders.Select(o=> new OrderCreatedMessage
+            {
+                Id = o.Id,
+                CustomerId = o.CustomerId,
+                DeliveryAddress = o.DeliveryAddress,
+                TotalPriceCents = o.TotalPriceCents,
+                TotalPriceCurrency = o.TotalPriceCurrency,
+                CreatedAt = o.CreatedAt,
+                UpdatedAt = o.UpdatedAt,
+                OrderItems = orderItems.Select(i => new ModelsDtoCommon.OrderItemUnit
+                {
+                    Id = i.Id,
+                    OrderId = i.OrderId,
+                    ProductId = i.ProductId,
+                    Quantity = i.Quantity,
+                    ProductTitle = i.ProductTitle,
+                    ProductUrl = i.ProductUrl,
+                    PriceCents = i.PriceCents,
+                    PriceCurrency = i.PriceCurrency,
+                    CreatedAt = i.CreatedAt,
+                    UpdatedAt = i.UpdatedAt
+                }).ToArray()
+            }).ToArray();
+            
+            await _rabbitMqService.Publish(messages, settings.Value.OrderCreatedQueue, token);            
             await transaction.CommitAsync(token);
             return Map(orders, orderItemLookup);
         }
