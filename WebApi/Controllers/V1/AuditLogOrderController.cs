@@ -21,6 +21,8 @@ public class AuditLogOrderController(AuditLogOrderService auditService, Validato
             return BadRequest(validationResult.ToDictionary());
         }
 
+        Console.WriteLine("SAVING BATCH");
+
         var res = await auditService.BatchInsert(request.Orders.Select(x => new AuditLogOrderUnit
         {
             OrderId = x.OrderId,

@@ -14,6 +14,7 @@ using WebApi.DAL.Interfaces;
 using WebApi.DAL.Repositories;
 using WebApi.Validators;
 using Common;
+using WebApi.Jobs;
 
 // создается билдер веб приложения
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 // добавляем swagger
 builder.Services.AddSwaggerGen();
+builder.Services.AddHostedService<OrderGenerator>();
 
 // собираем билдер в приложение
 var app = builder.Build();

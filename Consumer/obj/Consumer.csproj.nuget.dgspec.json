@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj": {}
+    "C:\\Users\\admin\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\RiderProjects\\Microservices\\Common\\Common.csproj": {
+    "C:\\Users\\admin\\RiderProjects\\Microservices\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Microservices\\Common\\Common.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\RiderProjects\\Microservices\\Common\\Common.csproj",
         "projectName": "Common",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Common\\Common.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Common\\obj\\",
+        "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -67,42 +65,40 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\admin\\.dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\user\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj": {
+    "C:\\Users\\admin\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj",
         "projectName": "Consumer",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Consumer\\obj\\",
+        "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Consumer\\Consumer.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Consumer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\user\\RiderProjects\\Microservices\\Common\\Common.csproj": {
-                "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Common\\Common.csproj"
+              "C:\\Users\\admin\\RiderProjects\\Microservices\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Common\\Common.csproj"
               },
-              "C:\\Users\\user\\RiderProjects\\Microservices\\Messages\\Messages.csproj": {
-                "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Messages\\Messages.csproj"
+              "C:\\Users\\admin\\RiderProjects\\Microservices\\Messages\\Messages.csproj": {
+                "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Messages\\Messages.csproj"
               },
-              "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj": {
-                "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj"
+              "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\Models.csproj": {
+                "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\Models.csproj"
               }
             }
           }
@@ -147,36 +143,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\admin\\.dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\user\\RiderProjects\\Microservices\\Messages\\Messages.csproj": {
+    "C:\\Users\\admin\\RiderProjects\\Microservices\\Messages\\Messages.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Microservices\\Messages\\Messages.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\RiderProjects\\Microservices\\Messages\\Messages.csproj",
         "projectName": "Messages",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Messages\\Messages.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Messages\\obj\\",
+        "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Messages\\Messages.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Messages\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj": {
-                "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj"
+              "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\Models.csproj": {
+                "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\Models.csproj"
               }
             }
           }
@@ -212,28 +206,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\admin\\.dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj": {
+    "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\Models.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\Microservices\\Models\\obj\\",
+        "projectPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\Models.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\RiderProjects\\Microservices\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -273,7 +265,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\admin\\.dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -40,10 +40,10 @@ public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepositor
             }).ToArray();
             var orders = await orderRepository.BulkInsert(orderDals, token);
 
-            V1OrderItemDal[] orderItemDals = orderUnits.SelectMany(o => o.OrderItems.Select(i => new V1OrderItemDal
+            V1OrderItemDal[] orderItemDals = orderUnits.SelectMany((o, index) => o.OrderItems.Select(i => new V1OrderItemDal
             {
                 Id = i.Id,
-                OrderId = orders[o.Id].Id,
+                OrderId = orders[index].Id,
                 ProductId = i.ProductId,
                 Quantity = i.Quantity,
                 ProductTitle = i.ProductTitle,
@@ -53,6 +53,7 @@ public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepositor
                 CreatedAt = now,
                 UpdatedAt = now
             })).ToArray();
+            
             var orderItems = await orderItemRepository.BulkInsert(orderItemDals, token);
             
             ILookup<long, V1OrderItemDal> orderItemLookup = orderItems.ToLookup(x => x.OrderId);

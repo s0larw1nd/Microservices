@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v9.0": {
       "WebApi/1.0.0": {
         "dependencies": {
+          "AutoFixture": "5.0.0-preview0012",
           "Common": "1.0.0",
           "Dapper": "2.1.66",
           "FluentValidation": "12.0.0",
@@ -20,6 +21,18 @@
         },
         "runtime": {
           "WebApi.dll": {}
+        }
+      },
+      "AutoFixture/5.0.0-preview0012": {
+        "dependencies": {
+          "Fare": "2.2.1",
+          "System.ComponentModel.Annotations": "5.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/AutoFixture.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
+          }
         }
       },
       "Azure.Core/1.38.0": {
@@ -62,6 +75,14 @@
           "lib/net8.0/Dapper.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.1.66.48463"
+          }
+        }
+      },
+      "Fare/2.2.1": {
+        "runtime": {
+          "lib/netstandard2.0/Fare.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.1.0"
           }
         }
       },
@@ -968,6 +989,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AutoFixture/5.0.0-preview0012": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VVvNRW2rpZOXMg7+YfIBObhC26ScD/vIcV0MVd8u32dSndzlGjcsX1clus+MDpCbkHf4fJ5aULWJ6y7ueu7Ijg==",
+      "path": "autofixture/5.0.0-preview0012",
+      "hashPath": "autofixture.5.0.0-preview0012.nupkg.sha512"
+    },
     "Azure.Core/1.38.0": {
       "type": "package",
       "serviceable": true,
@@ -988,6 +1016,13 @@
       "sha512": "sha512-/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw==",
       "path": "dapper/2.1.66",
       "hashPath": "dapper.2.1.66.nupkg.sha512"
+    },
+    "Fare/2.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-21XZo/yuXK1k0EUhdLnjgRD4n0HQYmPFchV6uaORcRc65rasZ1vdm2dmJXPBKZiIBztRRYRmmg/B76W721VWkA==",
+      "path": "fare/2.2.1",
+      "hashPath": "fare.2.2.1.nupkg.sha512"
     },
     "FirebirdSql.Data.FirebirdClient/10.3.2": {
       "type": "package",
