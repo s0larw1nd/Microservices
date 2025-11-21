@@ -2,7 +2,7 @@
 
 namespace Messages;
 
-public class OrderCreatedMessage
+public class OmsOrderCreatedMessage : BaseMessage
 {
     public long Id { get; set; }
     
@@ -19,4 +19,6 @@ public class OrderCreatedMessage
     public DateTimeOffset UpdatedAt { get; set; }
 
     public OrderItemUnit[] OrderItems { get; set; }
+
+    public override string RoutingKey { get; } = "order.created";
 }

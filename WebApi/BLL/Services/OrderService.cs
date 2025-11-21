@@ -58,7 +58,7 @@ public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepositor
             
             ILookup<long, V1OrderItemDal> orderItemLookup = orderItems.ToLookup(x => x.OrderId);
             
-            OrderCreatedMessage[] messages = orders.Select(o=> new OrderCreatedMessage
+            OmsOrderCreatedMessage[] messages = orders.Select(o=> new OmsOrderCreatedMessage
             {
                 Id = o.Id,
                 CustomerId = o.CustomerId,
@@ -82,7 +82,7 @@ public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepositor
                 }).ToArray()
             }).ToArray();
             
-            await _rabbitMqService.Publish(messages, settings.Value.OrderCreatedQueue, token);            
+            await _rabbitMqService.Publish(messages, token);
             await transaction.CommitAsync(token);
             return Map(orders, orderItemLookup);
         }

@@ -13,6 +13,11 @@ public class OrderGenerator(IServiceProvider serviceProvider): BackgroundService
         var fixture = new Fixture();
         using var scope = serviceProvider.CreateScope();
         var orderService = scope.ServiceProvider.GetRequiredService<OrderService>();
+        var logService = scope.ServiceProvider.GetRequiredService<AuditLogOrderService>();
+        var states = new[] {"Created", "Processing",  "Completed", "Cancelled"};
+        
+        var created = -1;
+        Random rnd = new Random();
         
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -37,6 +42,21 @@ public class OrderGenerator(IServiceProvider serviceProvider): BackgroundService
             Console.WriteLine("Created batch of orders");
             
             await orderService.BatchInsert(orders, stoppingToken);
+            created += 50;
+            
+            var updates = Enumerable.Range(1, rnd.Next(1,51))
+                .Select(_ =>
+                {
+                    var update = fixture.Build<UpdateStatusUnit>()
+                        .With(x => x.OrderId, rnd.Next(1, created+1))
+                        .With(x => x.OrderStatus, states[rnd.Next(1, states.Length)])
+                        .Create();
+                    
+                    return update;
+                })
+                .ToArray();
+            
+            await logService.BatchUpdate(updates, stoppingToken);
             
             await Task.Delay(250, stoppingToken);
         }

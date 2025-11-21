@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Messages;
+using Microsoft.Extensions.Options;
 using WebApi.BLL.Models;
 using WebApi.Config;
 using WebApi.DAL;
@@ -43,6 +44,38 @@ public class AuditLogOrderService(UnitOfWork unitOfWork, IAuditLogOrderRepositor
             return result;
         }
         catch (Exception e) 
+        {
+            await transaction.RollbackAsync(token);
+            throw;
+        }
+    }
+
+    public async Task<UpdateStatusUnit[]> BatchUpdate(UpdateStatusUnit[] updateStatusUnits, CancellationToken token)
+    {
+        await using var transaction = await unitOfWork.BeginTransactionAsync(token);
+
+        try
+        {
+            V1UpdateOrderDal[] updateOrderDals = updateStatusUnits.Select(a => new V1UpdateOrderDal
+            {
+                OrderId = a.OrderId,
+                OrderStatus = a.OrderStatus,
+            }).ToArray();
+            var updatedLogs = await logRepository.BulkUpdate(updateOrderDals, token);
+            
+            OmsOrderStatusChangedMessage[] messages = updatedLogs.Select(u => new OmsOrderStatusChangedMessage
+            {
+                OrderId =  u.OrderId,
+                CustomerId =  u.CustomerId,
+                OrderItemId = u.OrderItemId,
+                OrderStatus = u.OrderStatus,
+            }).ToArray();
+            
+            await _rabbitMqService.Publish(messages, token);
+            await transaction.CommitAsync(token);
+            return null;
+        }
+        catch (Exception e)
         {
             await transaction.RollbackAsync(token);
             throw;
