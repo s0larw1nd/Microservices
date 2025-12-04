@@ -1,6 +1,7 @@
 ﻿services:
   postgres:
     image: postgres
+    container_name: postgres
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=mypassword
@@ -8,11 +9,19 @@
       - POSTGRES_HOST_AUTH_METHOD=md5
       - POSTGRES_INITDB_ARGS=--auth=md5
     volumes:
-      - pgdata:/var/lib/postgresql/data/
-      - ./initdb.d:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U user -d postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   
   pgbouncer:
     image: edoburu/pgbouncer:latest
+    container_name: pgbouncer
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
@@ -21,6 +30,10 @@
       - ADMIN_USERS=postgres,admin
     ports:
       - "15432:5432"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
         
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
@@ -30,7 +43,38 @@
       - "15672:15672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+        
+  webapi:
+    build:
+      context: .
+      dockerfile: WebApi/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_URLS: http://+:5000
+      ASPNETCORE_ENVIRONMENT: Production
+    restart: unless-stopped
+    depends_on:
+      pgbouncer:
+        condition: service_started
 
+  consumer:
+    build:
+      context: .
+      dockerfile: Consumer/Dockerfile
+#    ports:
+#      - "5001:5001"
+    environment:
+      ASPNETCORE_URLS: http://+:5001
+      ASPNETCORE_ENVIRONMENT: Production
+    restart: unless-stopped
+    deploy:
+      replicas: 5
+    depends_on:
+      webapi:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
 
 volumes:
   pgdata:
