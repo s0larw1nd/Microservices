@@ -11,7 +11,7 @@ using ModelsDtoCommon = Models.Dto.Common;
 namespace WebApi.BLL.Services;
 
 public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepository, IOrderItemRepository orderItemRepository,
-    RabbitMqService _rabbitMqService, IOptions<RabbitMqSettings> settings)
+    KafkaProducer _kafkaProducer, IOptions<KafkaSettings> settings)
 {
     /// <summary>
     /// Метод создания заказов
@@ -58,31 +58,36 @@ public class OrderService(UnitOfWork unitOfWork, IOrderRepository orderRepositor
             
             ILookup<long, V1OrderItemDal> orderItemLookup = orderItems.ToLookup(x => x.OrderId);
             
-            OmsOrderCreatedMessage[] messages = orders.Select(o=> new OmsOrderCreatedMessage
-            {
-                Id = o.Id,
-                CustomerId = o.CustomerId,
-                DeliveryAddress = o.DeliveryAddress,
-                TotalPriceCents = o.TotalPriceCents,
-                TotalPriceCurrency = o.TotalPriceCurrency,
-                CreatedAt = o.CreatedAt,
-                UpdatedAt = o.UpdatedAt,
-                OrderItems = orderItems.Select(i => new ModelsDtoCommon.OrderItemUnit
+            OmsOrderCreatedMessage[] messages = orders
+                .Select(o => new OmsOrderCreatedMessage
                 {
-                    Id = i.Id,
-                    OrderId = i.OrderId,
-                    ProductId = i.ProductId,
-                    Quantity = i.Quantity,
-                    ProductTitle = i.ProductTitle,
-                    ProductUrl = i.ProductUrl,
-                    PriceCents = i.PriceCents,
-                    PriceCurrency = i.PriceCurrency,
-                    CreatedAt = i.CreatedAt,
-                    UpdatedAt = i.UpdatedAt
-                }).ToArray()
-            }).ToArray();
+                    Id = o.Id,
+                    CustomerId = o.CustomerId,
+                    DeliveryAddress = o. DeliveryAddress,
+                    TotalPriceCents = o.TotalPriceCents,
+                    TotalPriceCurrency = o.TotalPriceCurrency,
+                    CreatedAt = o.CreatedAt,
+                    UpdatedAt = o.UpdatedAt,
+                    OrderItems = orderItems
+                        .Where(i => i.OrderId == o.Id)
+                        .Select(i => new ModelsDtoCommon.OrderItemUnit
+                        {
+                            Id = i.Id,
+                            OrderId = i.OrderId,
+                            ProductId = i.ProductId,
+                            Quantity = i.Quantity,
+                            ProductTitle = i.ProductTitle,
+                            ProductUrl = i.ProductUrl,
+                            PriceCents = i.PriceCents,
+                            PriceCurrency = i.PriceCurrency,
+                            CreatedAt = i.CreatedAt,
+                            UpdatedAt = i.UpdatedAt
+                        })
+                        .ToArray()
+                })
+                .ToArray();
             
-            await _rabbitMqService.Publish(messages, token);
+            await _kafkaProducer.Produce(settings.Value.OmsOrderCreatedTopic, messages.Select(m => (m.CustomerId.ToString(), m)).ToArray(), token);
             await transaction.CommitAsync(token);
             return Map(orders, orderItemLookup);
         }

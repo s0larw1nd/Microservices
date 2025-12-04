@@ -9,7 +9,7 @@ using WebApi.DAL.Models;
 namespace WebApi.BLL.Services;
 
 public class AuditLogOrderService(UnitOfWork unitOfWork, IAuditLogOrderRepository logRepository,
-    RabbitMqService _rabbitMqService, IOptions<RabbitMqSettings> settings)
+    KafkaProducer _kafkaProducer, IOptions<KafkaSettings> settings)
 {
     public async Task<AuditLogOrderUnit[]> BatchInsert(AuditLogOrderUnit[] auditUnits, CancellationToken token)
     {
@@ -71,7 +71,7 @@ public class AuditLogOrderService(UnitOfWork unitOfWork, IAuditLogOrderRepositor
                 OrderStatus = u.OrderStatus,
             }).ToArray();
             
-            await _rabbitMqService.Publish(messages, token);
+            await _kafkaProducer.Produce(settings.Value.OmsOrderStatusChangedTopic, messages.Select(m => (m.CustomerId.ToString(), m)).ToArray(), token);
             await transaction.CommitAsync(token);
             return null;
         }

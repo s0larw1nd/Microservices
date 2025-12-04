@@ -19,6 +19,4 @@ public class OmsOrderCreatedMessage : BaseMessage
     public DateTimeOffset UpdatedAt { get; set; }
 
     public OrderItemUnit[] OrderItems { get; set; }
-
-    public override string RoutingKey { get; } = "order.created";
 }

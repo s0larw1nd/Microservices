@@ -1,11 +1,12 @@
 using Consumer.Clients;
+using Consumer.Config;
 using Consumer.Consumers;
-using WebApi.Config;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
-builder.Services.AddHostedService<BatchOmsOrderCreatedConsumer>();
-builder.Services.AddHostedService<BatchOmsOrderStatusChangedConsumer>();
+builder.Services.AddLogging();
+builder.Services.Configure<KafkaSettings>(builder.Configuration.GetSection(nameof(KafkaSettings)));
+builder.Services.AddHostedService<OmsOrderCreatedConsumer>();
+builder.Services.AddHostedService<OmsOrderStatusChangedConsumer>();
 builder.Services.AddHttpClient<OmsClient>(c => c.BaseAddress = new Uri(builder.Configuration["HttpClient:Oms:BaseAddress"]));
 
 builder.Services.Configure<HostOptions>(options =>

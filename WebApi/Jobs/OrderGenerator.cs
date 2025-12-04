@@ -33,6 +33,7 @@ public class OrderGenerator(IServiceProvider serviceProvider): BackgroundService
                         .With(x => x.TotalPriceCurrency, "RUB")
                         .With(x => x.TotalPriceCents, 1000)
                         .With(x => x.OrderItems, [orderItem])
+                        .With(x => x.CustomerId, rnd.Next(1, 6))
                         .Create();
 
                     return order;
