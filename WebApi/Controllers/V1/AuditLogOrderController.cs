@@ -20,9 +20,7 @@ public class AuditLogOrderController(AuditLogOrderService auditService, Validato
         {
             return BadRequest(validationResult.ToDictionary());
         }
-
-        Console.WriteLine("SAVING BATCH");
-
+        
         var res = await auditService.BatchInsert(request.Orders.Select(x => new AuditLogOrderUnit
         {
             OrderId = x.OrderId,
@@ -35,6 +33,35 @@ public class AuditLogOrderController(AuditLogOrderService auditService, Validato
         {
             Orders = Map(res)
         });
+    }
+
+    [HttpPost("update-status")]
+    public async Task<ActionResult<V1UpdateOrderStatusResponse>> V1BatchUpdate([FromBody] V1UpdateOrdersStatusRequest request,
+        CancellationToken token)
+    {
+        var validationResult = await validatorFactory.GetValidator<V1UpdateOrdersStatusRequest>().ValidateAsync(request, token);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.ToDictionary());
+        }
+        
+        var orders = await auditService.GetLogs(new QueryAuditLogOrderModel
+        {
+            OrderIds =  request.OrderIds
+        }, token);
+        
+        if (request.NewStatus == "Completed" && !Array.TrueForAll(orders, order => order.OrderStatus != "Created"))
+        {
+            return BadRequest("Can't update status from Created to Completed");
+        }
+        
+        var res = await auditService.BatchUpdate(request.OrderIds.Select(x => new UpdateStatusUnit
+        {
+            OrderId = x,
+            OrderStatus = request.NewStatus
+        }).ToArray(), token);
+
+        return Ok(new V1UpdateOrderStatusResponse());
     }
 
     private Models.Dto.Common.AuditLogOrderUnit[] Map(AuditLogOrderUnit[] audits)

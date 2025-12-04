@@ -28,6 +28,13 @@ public class InitLogTable: Migration {
                 created_at timestamp with time zone,
                 updated_at timestamp with time zone
             );
+
+            create type v1_update_log_order AS (
+                order_id bigint,
+                order_item_id bigint,
+                customer_id bigint,
+                order_status text
+            );
         ";
         
         Execute.Sql(sql);

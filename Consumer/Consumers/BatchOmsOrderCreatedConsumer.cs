@@ -10,7 +10,7 @@ namespace Consumer.Consumers;
 public class BatchOmsOrderCreatedConsumer(
     IOptions<RabbitMqSettings> rabbitMqSettings,
     IServiceProvider serviceProvider)
-    : BaseBatchMessageConsumer<OrderCreatedMessage>(rabbitMqSettings.Value)
+    : BaseBatchMessageConsumer<OmsOrderCreatedMessage>(rabbitMqSettings.Value, s => s.OrderCreated)
 {
     public enum OrderStatus
     {
@@ -19,9 +19,12 @@ public class BatchOmsOrderCreatedConsumer(
         Completed,
         Cancelled
     }
+
+    private int counter = 0;
     
-    protected override async Task ProcessMessages(OrderCreatedMessage[] messages)
+    protected override async Task ProcessMessages(OmsOrderCreatedMessage[] messages)
     {
+        if (counter % 5 == 0) throw new ArgumentException("Got 5 stacks");
         using var scope = serviceProvider.CreateScope();
         var client = scope.ServiceProvider.GetRequiredService<OmsClient>();
         
@@ -36,5 +39,7 @@ public class BatchOmsOrderCreatedConsumer(
                     OrderStatus = nameof(OrderStatus.Created)
                 })).ToArray()
         }, CancellationToken.None);
+        
+        counter++;
     }
 }

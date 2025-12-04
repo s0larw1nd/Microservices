@@ -6,7 +6,7 @@ using WebApi.Config;
 
 namespace Consumer.Base;
 
-public abstract class BaseBatchMessageConsumer<T>(RabbitMqSettings rabbitMqSettings): IHostedService
+public abstract class BaseBatchMessageConsumer<T>(RabbitMqSettings rabbitMqSettings, Func<RabbitMqSettings, RabbitMqSettings.TopicSettingsUnit> rabbitFunc): IHostedService
     where T : class
 {
     private IConnection _connection;
@@ -16,6 +16,7 @@ public abstract class BaseBatchMessageConsumer<T>(RabbitMqSettings rabbitMqSetti
     private List<MessageInfo> _messageBuffer;
     private Timer _batchTimer;
     private SemaphoreSlim _processingSemaphore;
+    private readonly RabbitMqSettings.TopicSettingsUnit _topicSettings = rabbitFunc(rabbitMqSettings);
 
     protected abstract Task ProcessMessages(T[] messages);
 
@@ -28,24 +29,49 @@ public abstract class BaseBatchMessageConsumer<T>(RabbitMqSettings rabbitMqSetti
         _processingSemaphore = new SemaphoreSlim(1, 1);
         
         // Настройка prefetch для батчевой обработки
-        await _channel.BasicQosAsync(0, (ushort)(rabbitMqSettings.BatchSize * 2), false, token);
+        await _channel.BasicQosAsync(0, (ushort)(_topicSettings.BatchSize * 2), false, token);
         
-        var batchTimeout = TimeSpan.FromSeconds(rabbitMqSettings.BatchTimeoutSeconds);
+        var batchTimeout = TimeSpan.FromSeconds(_topicSettings.BatchTimeoutSeconds);
         // Таймер для принудительной обработки по времени
         _batchTimer = new Timer(ProcessBatchByTimeout, null, batchTimeout, batchTimeout);
         
+        await _channel.ExchangeDeclareAsync(
+            exchange: _topicSettings.DeadLetter.Dlx,
+            type: ExchangeType.Direct,
+            durable: true, 
+            cancellationToken: token);
+        
         await _channel.QueueDeclareAsync(
-            queue: rabbitMqSettings.OrderCreatedQueue, 
+            queue: _topicSettings.DeadLetter.Dlq,
+            durable: true,
+            exclusive: false,
+            autoDelete: false, 
+            cancellationToken: token);
+        
+        await _channel.QueueBindAsync(
+            queue: _topicSettings.DeadLetter.Dlq,
+            exchange: _topicSettings.DeadLetter.Dlx,
+            routingKey: _topicSettings.DeadLetter.RoutingKey,
+            cancellationToken: token);
+        
+        var queueArgs = new Dictionary<string, object>
+        {
+            {"x-dead-letter-exchange", _topicSettings.DeadLetter.Dlx},
+            {"x-dead-letter-routing-key", _topicSettings.DeadLetter.RoutingKey}
+        };
+        
+        await _channel.QueueDeclareAsync(
+            queue: _topicSettings.Queue, 
             durable: false, 
             exclusive: false,
             autoDelete: false,
-            arguments: null, 
+            arguments: queueArgs, 
             cancellationToken: token);
         
         var consumer = new AsyncEventingBasicConsumer(_channel);
         consumer.ReceivedAsync += OnMessageReceived;
         
-        await _channel.BasicConsumeAsync(queue: rabbitMqSettings.OrderCreatedQueue, autoAck: false, consumer: consumer, cancellationToken: token);
+        await _channel.BasicConsumeAsync(queue: _topicSettings.Queue, autoAck: false, consumer: consumer, cancellationToken: token);
     }
     
     private async Task OnMessageReceived(object sender, BasicDeliverEventArgs ea)
@@ -63,7 +89,7 @@ public abstract class BaseBatchMessageConsumer<T>(RabbitMqSettings rabbitMqSetti
             });
 
             // Если достигли лимита батча - обрабатываем
-            if (_messageBuffer.Count >= rabbitMqSettings.BatchSize)
+            if (_messageBuffer.Count >= _topicSettings.BatchSize)
             {
                 await ProcessBatch();
             }
@@ -117,7 +143,7 @@ public abstract class BaseBatchMessageConsumer<T>(RabbitMqSettings rabbitMqSetti
             
             // NACK всех сообщений в батче для повторной обработки
             var lastDeliveryTag = currentBatch.Max(x => x.DeliveryTag);
-            await _channel.BasicNackAsync(lastDeliveryTag, multiple: true, requeue: true);
+            await _channel.BasicNackAsync(lastDeliveryTag, multiple: true, requeue: false);
         }
     }
 

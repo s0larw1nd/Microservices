@@ -44,6 +44,26 @@ public class AuditLogOrderRepository(UnitOfWork unitOfWork) : IAuditLogOrderRepo
         return res.ToArray();
     }
 
+    public async Task<V1UpdateOrderDal[]> BulkUpdate(V1UpdateOrderDal[] model, CancellationToken token)
+    {
+        var sql = @"
+            UPDATE audit_log_order AS t
+            SET order_status = u.orderstatus
+            FROM unnest(@AuditLogOrdersUpdates) AS u(orderid, orderitemid, customerid, orderstatus)
+            WHERE t.order_id = u.orderid
+            RETURNING
+                t.order_id,
+                t.order_item_id,
+                t.customer_id,
+                t.order_status
+        ";
+        var conn = await unitOfWork.GetConnection(token);
+        var res = await conn.QueryAsync<V1UpdateOrderDal>(new CommandDefinition(
+            sql, new {AuditLogOrdersUpdates = model}, cancellationToken: token));
+        
+        return res.ToArray();
+    }
+
     public async Task<V1AuditLogOrderDal[]> Query(QueryAuditLogOrderDalModel model, CancellationToken token)
     {
         var sql = new StringBuilder(@"
