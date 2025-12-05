@@ -29,8 +29,8 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<AuditLogOrderService>();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 builder.Services.AddScoped<ValidatorFactory>();
-builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
-builder.Services.AddScoped<RabbitMqService>();
+builder.Services.Configure<KafkaSettings>(builder.Configuration.GetSection(nameof(KafkaSettings)));
+builder.Services.AddScoped<KafkaProducer>();
 // зависимость, которая автоматически подхватывает все контроллеры в проекте
 builder.Services.AddControllers().AddJsonOptions(options => 
 {

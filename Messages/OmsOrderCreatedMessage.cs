@@ -2,7 +2,7 @@
 
 namespace Messages;
 
-public class OrderCreatedMessage
+public class OmsOrderCreatedMessage : BaseMessage
 {
     public long Id { get; set; }
     
